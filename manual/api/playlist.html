@@ -1,0 +1,194 @@
+<html><head><title>Be in your Stereo</title></head><body bgcolor="#ffffff" text="#000000">
+
+<table width="100%"><tr><td width=64><img src="../img/icon.png" width=64 height=64 alt="" align=middle></td><td>
+<h1>Playlist API</h1>
+for <a href="index.html">skins</a>.
+</td><td align=right>
+
+<a href="architecture.html">Intro</a> | <a href="crashcourse.html">PHP</a>
+<Br>APIs: 
+Playlist | <A href="playback.html">Playback</a> | <a href="collection.html">Collection</a> 
+</td>
+
+</tr></table>
+<hr>
+
+<tt>
+<br><a href="#co">*</a> int biys_count_playlists()
+<br><a href="#cr">*</a> int biys_create_playlist()
+<br><a href="#prm">*</a> void biys_remove_playlist(int playlist=0)
+<br><a href="#clear">*</a> void biys_clear(int playlist=0)
+<br><a href="#shuffle">*</a> void biys_shuffle(int playlist=0)
+<br><a href="#sort">*</a> void biys_sort(int playlist=0)
+
+<P><a href="#add">*</a> void biys_add(string path, int index=-1, int playlist=0)
+<br><a href="#co2">*</a> int biys_count(int playlist=0)
+<br><a name="i4i">*</a> int biys_get_id_for_index(int index, int playlist=0)
+<Br><a href="#remove">*</a> void biys_remove(int ID, int playlist=0)
+
+<p><a href="#getpath">*</a> string biys_get_path(int ID, int playlist=0)
+<br><a href="#getname">*</a> string biys_get_name(int ID, int playlist=0)
+<br><a href="#setname">*</a> void biys_set_name(int ID, string newName, int playlist=0)
+<br><a href="#attribs">*</a> array biys_get_attributes_for_id(int ID, int playlist=0)
+<br><a href="#trivia">*</a> array biys_get_trivia_for_id(int ID, int playlist=0)
+
+</tt>
+
+</blockquote><hr><h2><a name="co"></a>int biys_count_playlists()</h2><blockquote>
+	Returns the number of playlists that are created right now.
+   	This may be zero if there is no playlist. 
+
+</blockquote><hr><h2><a name="cr"></a>int biys_create_playlist()</h2><blockquote>
+	Creates a new playlist and returns its index.
+   	Returns -1 on failure.
+
+<P><u>Example:</u>
+<pre>
+	if (biys_count_playlists()==0) {
+		# No playlists around, so I'll make one.
+		$newlist = biys_create_playlist();
+		biys_add("/boot/home/favourite.mp3", $newlist);
+	}
+</pre>
+
+</blockquote><hr><h2><a name="prm"></a>void biys_remove_playlist(int playlist=0)</h2><blockquote> 
+	Removes the given playlist from SoundPlay.
+
+</blockquote><hr><h2><a name="clear"></a>void biys_clear(int playlist=0)   </h2><blockquote> 
+        Clears the given playlist of all files, but does not remove it.
+
+</blockquote><hr><h2><a name="shuffle"></a>void biys_shuffle(int playlist=0)   </h2><blockquote> 
+        Shuffles the files in the playlist. 
+
+</blockquote><hr><h2><a name="sort"></a>void biys_sort(int playlist=0)</h2><blockquote> 
+        Sorts the playlist alphabetically by name.
+
+</blockquote><hr><h2><a name="add"></a>void biys_add(string path, int index=-1, int playlist=0)</h2><blockquote> 
+	Adds a file, directory, or Shoutcast URL to the playlist.  If index is given, 
+	the item is inserted at the given index within the playlist. 
+
+<P>The notation means three ways to call this function:
+<pre>
+	## one parameter version
+	# The following specify only the path.  The track will be appended
+	# to the first playlist (i.e. playlist 0).
+	biys_add("/boot/home/media/mp3/file.mp3/");  # adds a file
+	biys_add("/boot/home/media/mp3/");           # adds everything under that directory
+	biys_add("http://24.112.37.89:8080/");       # adds a shoutcast URL
+
+	## two-parameter version
+	# The following specify the path and the index.  The first playlist will
+	# be affected (i.e. playlist 0).
+	biys_add("file.mp3", 0);              # adds a file at the top of the playlist
+	biys_add("directory", 1);             # adds a directory's contents at the second-from-the-top slot
+	
+	## three-parameter version
+	# The following specify everything.
+	biys_add("http://beosradio.com/", -1, 4);     # appends to playlist 4
+	biys_add("file.mp3", 0, 2);                   # at the top of playlist 2
+</pre>
+
+</blockquote><hr><h2><a name="co2"></a>int biys_count(int playlist=0)</h2><blockquote> 
+	Returns the number of items in the playlist, or zero if there aren't any.
+
+</blockquote><hr><h2><a name="i4i"></a>int biys_get_id_for_index(int index, int playlist=0)   </h2><blockquote> 
+	Returns the ID of a file at the given index. Returns -1 if the index doesn't exist.
+	<b>This function is essential for obtaining the ID of a file, which is used to manipulate
+	it with the functions that follow.</b>
+	
+<pre>
+	$id = biys_get_id_for_index(0);     # gets the ID of the first file
+	biys_play_file($id);                # ... and start it playing
+</pre>
+
+</blockquote><hr><h2><a name="remove"></a>void biys_remove(int ID, int playlist=0)</h2><blockquote> 
+	Removes an entry from the playlist.
+
+</blockquote><hr><h2><a name="getpath"></a>string biys_get_path(int ID, int playlist=0)</h2><blockquote> 
+	Gets the full path name or Shoutcast address of the given entry.
+
+<pre>
+	biys_add("/boot/file.mp3", 0);     # put the file at the top
+	$id = biys_get_id_for_index(0);    # get its ID
+	$path = biys_get_path($id);        # $path is now "/boot/file.mp3".
+</pre>
+
+</blockquote><hr><h2><a name="getname"></a>string biys_get_name(int ID, int playlist=0)</h2><blockquote> 
+	Initially, this is the leaf filename or URL of the playlist entry.
+
+<pre>
+	biys_add("/boot/file.mp3", 0);     # put the file at the top
+	$id = biys_get_id_for_index(0);    # get its ID
+	$name = biys_get_name($id);        # $path is now "file.mp3".
+</pre>
+
+</blockquote><hr><h2><a name="setname"></a>void biys_set_name(int ID, string newName, int playlist=0)</h2><blockquote>   
+	Changes the name SoundPlay reports for the file: this affects sorting and any filename displays.  It 
+	<em>does not</em> change the file's filename in the filesystem. 
+
+</blockquote><hr><h2><a name="attribs"></a>array biys_get_attributes_for_id(int ID, int playlist=0)  </h2><blockquote>  
+	This function will also retrieve all the BFS attributes it can for the file, and include them verbatim in a PHP hash. It understands 
+	string, integer, and floating-point attributes, and will copy up to 65,536 bytes of information out of each attribute and into php land.
+	It is similar to <a href="collection.html#triviap">get_attributes_for_path</A> except
+	it takes an ID from the playlist instead of a path name.
+	
+
+</blockquote><hr><h2><a name="trivia"></a>array biys_get_trivia_for_id(int ID, int playlist=0)  </h2><blockquote>  
+
+        Returns an associative array with all kinds of audio trivia about the named file.
+        There is a guaranteed amount of information provided by SoundPlay, plus whatever
+        BFS attributes are available.
+
+	<P><blink>Watch out!</blink>  This function can cause the SoundPlay playback
+	to break up if you call it too frequently.  Calling it once per file for a
+	long list of files will disrupt playback.
+	
+	
+        <table border="1"><tr><th>key</th><th>meaning</th></tr>
+        <tr><td>name</td><td>The url or path to the song</td></tr>
+        <tr><td>pretty_name</td><td>The name given to the track by biys_set_name(), if any.</td></tr>
+        <tr><td>mimetype</td><td>The MIME type of the track, e.g. "audio/x-mpeg"</td></tr>
+        <tr><td>pretty_type</td><td>A pretty rendition of the track's type, e.g. "pretty_mimetype = mpeg layer 3, 192kb, stereo"</td></tr>
+        <tr><td>samplerate</td><td>The number of samples per second in the track.  e.g. 44100</td></tr>
+		<tr><td>bitrate</td><td>The bitrate of the track or stream, e.g. 192000</td></tr>
+	    <tr><td>numchannels</td><td>The number of audio channels in the track, e.g. 2.</td></tr>
+        <tr><td>granularity</td><td>??</td></tr>
+		<tr><td>framcount</td><td>Number of frames in the file.  framecount divided by samplerate = play length (in seconds)</td></tr>
+		<tr><td>samplesize</td><td>??</td></tr>
+		<tr><td>byteorder</td><td>??</td></tr>
+		<tr><td>sampleformat</td><td>??</td></tr>
+		<tr><td colspan="2">
+		In addition, this function will also retrieve all the BFS attributes it can for the file,
+		and include them verbatim.  It understands string, integer, and floating-point attributes,
+		and will copy up to 65,536 bytes of information out of each attribute and into PHP_land. Common attributes include:
+		<ul>
+			<li>Audio:Length = 08:25
+			<li>Audio:Bitrate = 192 kbit
+			<li>Audio:Track = 1
+			<li>Audio:Artist = underworld
+			<li>Audio:Title = cups
+			<li>Audio:Album = GU014 Hong Kong CD1
+			<li>Audio:Genre = Global Underground
+			<li>Audio:Year = 1999
+			<li>Audio:Producer = John Digweed
+			</ul></td></tr>	
+		</table>
+
+
+	Using the results of the function is easy:
+	
+<pre>
+	$trivia = biys_get_trivia($id);
+	print "The bit rate is ".$trivia['bitrate']." and there are ";
+	print $trivia['channels']." audio channels.";
+</pre>
+
+See also <tt><a href="collection.html#triviap">biys_get_attributes_for_path</a></tt>.
+
+</blockquote>
+
+
+<hr>
+next: <a href="playback.html">managing playback</a>
+
+</body></html>

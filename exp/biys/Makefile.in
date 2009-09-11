@@ -1,0 +1,10 @@
+# $Id: Makefile.in,v 1.2 2001-11-08 22:43:58 svanegmond Exp $
+
+LTLIBRARY_NAME        = libbiys.la
+LTLIBRARY_OBJECTS_X   = biys.lo SLooper.lo
+LTLIBRARY_SHARED_NAME = biys.la
+LTLIBRARY_SHARED_LIBADD  = $(BIYS_SHARED_LIBADD)
+
+EXTRA_INCLUDES = $(BIYS_INCLUDE)
+
+include $(top_srcdir)/build/dynlib.mk

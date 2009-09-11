@@ -1,0 +1,206 @@
+<html><head><title>Be in your Stereo</title></head><body bgcolor="#ffffff" text="#000000">
+
+<table><tr><td><img src="img/icon.png" width=64 height=64 alt="" align=middle></td><td>
+<h1>Usage</h1>
+of <a href="index.html">Be in your Stereo</a>.
+</td></tr></table>
+<hr>
+
+<a name="d"></a>
+<h2>Turning on the SoundPlay plugin</h2>
+Start SoundPlay.  Bring up its preferences window. 
+Turn on the plugin using <a href="img/prefs.png">this screen shot</a> if you need a guide.
+Open the settings and tune them as you please.  You'll probably find what's there OK.
+
+<table align=right><tr><Td>
+<img src="img/config.png">
+<br><b>The configuration panel for the plugin.</b>
+</td></tr></table>
+
+<P>Here are what the available settings mean:
+
+<h4>Preferred skin</h4>
+A "skin" in Be in your Stereo is the look and feel of the program.  The skin
+is what you see through your web browser.  <b>Be in your Stereo</B> lets you
+completely customize the appearance and behaviour using skins.
+
+<P><img align=left src="img/prefs-2.png">
+This setting is a popup-menu with a listing of all the directories in the skin folder.
+Each directory is assumed to contain one skin.  The folder listing is live - that is,
+if you add new skins to the folder, the menu will be up to date immediately.
+
+<P>Choosing a skin here will change which directory the internal web server serves
+files from, and hence the way the program looks and feels.
+
+<P>The "Open Skins Folder" button will open a Tracker window on the skins folder
+so you can look around.  "Download Skins" will spawn a web browser on the web site where
+you can download new skins.
+
+
+
+<h4>Use built-in web server</h4>
+Be in your Stereo has a <a href="webserver.html">very basic web server</a> built-in
+that is
+probably "good enough" for basic needs and playing around.
+Turn on this check box to run the web server.
+
+<P>The built-in web server has only one option: which port the web server listens on.
+For instance, if you indicate you want the web server to listen on port 4567,
+you should access the url <tt>http://127.0.0.0.1:4567/</tt> to see Be in your Stereo.
+
+<p>If the internal web server is not good enough for your purposes, BIYS can operate
+with any web server that is smart enough to call PHP.  It has been tested with <a href="http://www.bebits.com/app/322">Robin
+Hood</a> with the <a href="http://www.bebits.com/app/1883">PHP Handler</a>.  Consult your web server's documentation to learn how to set it up to use PHP.  The
+
+
+<h4>Producer attribute</h4>
+<a href="http://www.escribe.com/software/bestereo/m166.html">Read the discussion</a> that lead
+up to the Producer attribute.
+TODO - document this more.
+<img align=right src="img/prefs-3.png">
+
+
+<h2>Using the plugin</h2>
+TODO - rewrite based on the new skins.
+
+<P>
+Now for the fun part.  Start a browser, and point it at <a href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>.
+If it doesn't work, look at <a href="notes.html#e1">troubleshooting</a>.
+
+We'll start with what you would see if you didn't have anything in SoundPlay's playlists.
+<div align=center>
+<table><tr><Td>
+<img src="img/empty.png">
+<br><b>Nothing playing.</b>
+</td></tr></table></div>
+
+<P>If you have something playing, on the other hand, you'll see something like this:
+
+<table align=right><tr><Td>
+<img src="img/empty-not.png">
+<br><b>A few files in the playlist.</b>
+</td></tr></table>
+
+<P>There are a few features to notice here.  The standard play controls are present:
+click on <b>pause</b> to stop playback, then again to resume playback.   Click <b>ffwd</b> to
+kick SoundPlay into 400%-speed playback, then again to go back to normal speed.   <b>rewind</b> will do
+the same thing, but in reverse.  The <b>next</b> and <b>previous</b> buttons will jump to the
+next and previous tracks in the playlist.
+
+<P>On the right are controls that affect the entire playlist: 
+The <b>clear</b> button is like the eject button in SoundPlay's user interface:
+it throws out the entire playlist.  The <b>sort</b> and <b>shuffle</b> buttons rearrange the playlist accordingly.
+Sorting is based purely on filename (because that's how SoundPlay does it, and SoundPlay is doing it for us).
+
+<P>Below the play buttons are volume and track-position controls. For volume, the leftmost dash is complete
+silence.  The rightmost dash is the loudest SoundPlay can go.  For track position, the leftmost dash is the beginning
+of the song, and the rightmost is the very end of the song.  These sliders show you what the current volume and track
+position are with a <u>+</u>.
+
+<P>Clicking on the name of any song will jump straight to that song in the playlist, and clicking on the <u>x</b> next
+to a song will remove that song from the playlist.  The up and down arrows can be used to rearrange files in the playlist.
+
+
+<P>Although not pictured here, if you have the download-links option turned on, there will be
+a button that will let you pull down a copy of the audio file to your local computer.
+
+<p>The "Add Tracks" button leads to the best features of the plugin, the cross-indexing of all your audio files:
+
+<div align=center>
+<table><tr><Td>
+<img src="img/tracklist.png">
+<br><b>Cross-referenced view of your audio file collection.</b>
+</td></tr></table></div>
+
+<P>There are four sections guaranteed to show up here.  The plugin has looked at all your audio files,
+and determined the unique <b>year</b>, <b>genre</b>, <b>artist</b>, and <b>album</b> attribute values
+on those files.  In the example above, there are two different years, two genres, and many artists represented on three albums.
+
+<P>The individual audio files which compose your collection will be listed next, if there aren't too many.
+If there are more than 60, the list will be suppressed.
+
+<p>Clicking down into, say, the Soundtrack genre gives me this:
+
+<div align=center>
+<table><tr><Td>
+<img src="img/genreview.png">
+<br><b>A genre with one album.</b>
+</td></tr></table></div>
+
+<P>In this case, there is one album represented (Run Lola Run) with only one artist (Twycker).  Notice that the Year attribute
+has been suppressed.  Which attributes are cross-referenced depends on which one you're looking at, in a
+way which I hope is sensible.
+
+<P>
+Looking at the <b>Global Underground</b> genre, we see a remix album:
+
+<div align=center>
+<table><tr><Td>
+<img src="img/genreview2.png">
+<br><b>A genre with two albums, one of which is a remix album (with many artists on it).</b>
+</td></tr></table></div>
+
+<P>
+Here, there's two albums: <b>GU016 Cape Town</b> by Dave Seaman and <b>Prototype 1</b> by Seb Fontaine, both published
+by the Global Underground label.   I've given them their own genre (they deserve it).
+In this case, Dave Seaman's album is in many tiny audio files, with the original artists listed on the Artist attribute.
+
+<blockquote>
+Perhaps this is a case for a <b>DJ</b> attribute, that's read along with (or besides or instead of) the Artist attribute.
+I could use your input if you have an opinion -
+see the <a href="notes.html#f">giving help</a> section.
+</blockquote>
+
+Looking at Seb Fontaine's artist index, we see the one track:
+
+<div align=center>
+<table><tr><Td>
+<img src="img/albumview2.png">
+<br><b>Seb Fontaine has one audio file in my collection.
+</td></tr></table></div>
+
+<P>Drilling down into the GU016 album, we see the rest of the Global Underground tracks:
+
+<div align=center>
+<table><tr><Td>
+<img src="img/albumview.png">
+<br><b>A view of one album - a remix album with many artists on it.
+</td></tr></table></div>
+
+<P>
+Let's say that we decide to click on the <b>(add them all)</b> link now.  This will take us back to the playlist:
+
+<div align=center>
+<table><tr><Td>
+<img src="img/tracksadded.png">
+<br><b>A playlist with the GU016 album added to it.
+</td></tr></table></div>
+
+<P>
+... and we can start partying!
+
+
+<hr>
+<h2>Some things that might not be obvious</h2>
+
+<b>If you have multiple playlists</b> going in SoundPlay, the plugin will render them in a sensible way,
+allowing you to control their playback, volume, track, etc. independently.  Attempting remixes is not recommended. :)
+
+<P><b>If you change the value of an attribute</b>, the plugin will notice and do the appropriate reindexing.
+Please note that the plugin is not watching for new filename changes.
+
+<p><b>Which volumes are scanned?</b> When the SoundPlay plugin starts, it will look through any BFS
+volumes that have indices built on Audio:Artist, Audio:Genre, Audio:Year, and Audio:Album attributes.
+BFS is not specifically required, only the ability to attribute searches.  For now that implies only BFS, and forever
+that excludes Windows (FAT16/32) and Linux (ext2).  If you have a new volume you want included, mount it, then restart SoundPlay.
+
+<P><b>What if I unmount a volume?</b>  BeOS (correctly) refuses to do that as long as SoundPlay has scanned the
+some items on the disk.  To unlock the drive so you can unmount or eject it,
+quit SoundPlay, then unmount the volume in question.
+
+
+<hr>
+<a href="webserver.html">next: the built-in web server</a>
+
+</body></html>
+

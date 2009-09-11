@@ -1,0 +1,69 @@
+#!/bin/sh
+THISDIR=$(dirname "$0")
+cd ${THISDIR}		
+
+obj.x86/AddProducerAttribute
+
+RESPONSE=$(alert "This script will create indexes for audio attributes (year, genre, artist, album) on all of the currently-mounted drives.  You can mount any additional drives you want indexed now.
+
+If you're not sure what this means, it's harmless to say 'yes' to this, but you should read the manual. It's also harmless
+if these indexes have already been built.
+
+Is it OK to make audio attribute indexes?" "No" "Yes")
+
+if [ "$RESPONSE" = "Yes" ]
+then
+	cp obj.x86/reindex /tmp
+	volumes=`mountvolume -p -s | grep "/" | grep bfs | cut -c1-20`
+	for i in $volumes; do
+		alert "Indexing /$i" "This could take a while"
+		cd /${i}
+		mkindex "Audio:Genre"
+		mkindex "Audio:Producer"
+		mkindex "Audio:Artist"
+		mkindex "Audio:Album"
+		mkindex -t int "Audio:Year"
+		/tmp/reindex -r 'Audio:*' .
+	done
+	echo ==================================================================
+	echo
+	echo
+	echo
+	echo If there were a bunch of "invalid argument" errors above, that\'s OK.
+	echo They are produced for non-indexable volumes and volumes that
+	echo already have indexes and because this script is a bit naive.
+	echo
+	
+	X=$(alert "The indexes for Genre, Producer, Artist, Album, and Year have been created and populated." "Greeeeat");
+else
+	alert "Ok, no indexing done."
+fi
+
+cd /boot/
+
+SP=$(query -e BEOS:APP_SIG=application/x-vnd.marcone-soundplay)
+if [ "${SP}" != "" ]
+then
+	DIR=$(dirname "${SP}")"/Plugins/"
+	
+	RESULT=$(alert "I'll put the plugin into ${DIR}."  "Nooo!" "Okay")
+	if [ ${RESULT} = "Okay" ]
+	then
+		ACK=$(cp 2>&1 "${THISDIR}/obj.${BE_HOST_CPU}"/Be* "${DIR}")
+		alert "${ACK}"
+	else
+		alert "Ok, you'll have to install it yourself."
+	fi
+else
+	alert "Be in your Stereo requires SoundPlay to be installed. I don't see it anywhere." "Show me where"
+	NetPositive http://bebits.com/app/156
+fi
+
+# make the skins folder and park the basic one there.
+mkdir -p /boot/home/config/settings/biys/skins/
+rm -rf /boot/home/config/settings/biys/skins/Basic\ Skin
+cp -R ${THISDIR}/basic_skin /boot/home/config/settings/biys/skins/Basic\ Skin
+ln -s /boot/home/config/settings/biys/skins/Basic\ Skin /boot/home/config/settings/biys/current_skin
+
+cp ${THISDIR}/obj.x86/php ~/config/bin/
+

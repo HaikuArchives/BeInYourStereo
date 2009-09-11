@@ -1,0 +1,179 @@
+<html><head><title>Be in your Stereo</title></head><body bgcolor="#ffffff" text="#000000">
+
+<table width="100%"><tr><td width=64><img src="../img/icon.png" width=64 height=64 alt="" align=middle></td><td>
+<h1>A Crash Course in PHP</h1>
+for <a href="index.html">skins</a>.
+</td><td align=right>
+
+<a href="architecture.html">Intro</a> | PHP
+<Br>APIs: <a href="playlist.html">Playlist</a> | <A href="playback.html">Playback</a> | <a href="collection.html">Collection</a> 
+</td>
+
+</tr></table>
+<hr>
+<P>Skins are implemented in a very well-known and successful language 
+called PHP.  PHP is like Perl minus the ability to write illegible gibberish
+that nevertheless works.  
+For people who aren't skilled programmers, the language is very easy to 
+read and modify. As your skill deepens, you can teach yourself more 
+of the language.
+
+
+<h2>Quick PHP tutorial</h2>
+
+PHP has two major modes: HTML mode and PHP mode.  A script starts off in HTML
+mode.  Thus, a regular HTML page is a valid PHP script:
+
+<pre>
+	&lt;html&gt;&lt;head&gt;&lt;title&gt; My Title &lt;/title&gt;&lt;/head&gt;&lt;body&gt;
+	
+	Hello!
+	
+	&lt;/body&gt;&lt;/html&gt;
+</pre>
+
+You can embed PHP code within &lt;? and ?&gt; tags.
+
+<pre>
+	&lt;html&gt;&lt;head&gt;&lt;title&gt; My Title &lt;/title&gt;&lt;/head&gt;&lt;body&gt;
+	
+	&lt;? echo "Hello, World!"; ?&gt;
+	
+	&lt;/body&gt;&lt;/html&gt;
+</pre>
+
+PHP has variables like integers, floating point, arrays, and hashes:
+
+<pre>
+	&lt;?
+		$x = 2;
+		$pi = 3.14159265359 * $x;
+		$greeting = "Hi there!";
+		
+		$money[0]=5;
+		$money[1]=20.5;
+		$ceo['Sun'] = 'Scott McNealy';
+		$ceo['Be'] = 'Jean-Louis Gassee';
+				
+		# this is a comment
+		# ' and " can be used as string delimiters.
+		# The contents of " strings is evaluated for variables:
+		
+		$count = 7;
+		$good = "Snow White and the $count dwarves";    # $count gets replaced by 7
+		$bad = 'Snow White and the $count dwarves';     # $count is untouched
+	?&gt;
+</pre>
+
+PHP has the usual control structures plus some others you might not
+have seen before:
+
+<pre>
+	&lt;?
+		if ($expenses > $assets) {
+			go_bankrupt();
+		}
+
+		for ($i=0; $i&lt;10; $i++) {
+			print $i;
+		}
+		
+		while (inventory_left()) {
+			sell_inventory();
+		}
+		
+		$ceo['Sun'] = 'Scott McNealy';
+		$ceo['Be'] = 'Jean-Louis Gassee';
+		foreach ($ceo AS $company=>$person) {
+			print "$person is in charge of $company";
+		}
+	?&gt;
+</pre>
+
+<h3>Forms and variables</h3>
+
+Say you have an HTML form like this:
+
+<pre>
+	&lt;form action="next-page.html" method=get>
+	 What's your first name?
+	 &lt;input type=text name="firstname" size=20>
+
+	 &lt;input type=submit>
+	&lt;/form>
+</pre>
+
+When the user clicks on the "Submit" button, the web server will load
+and run "next-page.html".  The form variable firstname will show up automatically
+in that script as the variable $firstname:
+
+<pre>
+	&lt;?
+		print "Hello, $firstname";
+	?>
+</pre>
+
+If you were to look at your URL bar once you arrived on next-page.html, you 
+would see something like <tt>http://mycomputer/next-page.html?firstname=Steve</tt>.
+The web server takes everything after the ? and calls it the "query string".
+This is one way variables can be communicated between pages.  For instance, you
+could use the following code in first-page.html
+to pass the information on to a third page:
+
+<pre>
+	&lt;a href="another-page.html?firstname=&lt;? echo $firstname ?>">
+		Click here for another page.
+	&lt/a>
+</pre>
+
+This 
+would produce a link like <tt>another-page.html?firstname=Steve</tt>.
+Remember, you're allowed to pop into PHP mode even in the middle of some HTML.
+
+<P>Another technique involves passing information around using hidden variables
+in forms:
+
+<pre>
+	&lt;form action="last-page.html">
+	 &lt;input type=hidden name="firstname" value="&lt;? echo $firstname ?&gt;">
+	 
+	 What's your last name?
+	 &lt;input type=text name="lastname">
+	&lt;/form>	
+</pre>
+
+Which can be read in last-page.html with:
+<pre>
+	&lt;?
+		print "Hello $firstname $lastname";
+	?>
+</pre>
+
+This technique lets you build up information through a series of forms,
+rather than having to make one massive one.
+
+
+<h3>Learning More</h3>
+	
+This concludes your crash course in PHP.  If you still don't get it, 
+don't be scared. It's a very easy to use, expressive
+language.  
+
+
+<ul>
+<li>Get a <a href="http://www.el34.com/">real</a> <a href="http://bebits.com/app/1178">editor</a>.
+<li>Read the <a href="http://www.php.net/manual/en/langref.php">language reference</a>.
+<li>PHP's has a small core language and a humongous library of function calls
+    you can use to talk to databases, communicate with system services, and the like.
+    Learn about the the <a href="http://www.php.net/manual/en/ref.array.php">array</a>
+    and <A href="http://www.php.net/manual/en/ref.strings.php">string</a> manipulation 
+    functions, then skim the list <a href="http://www.php.net/manual/en/funcref.php">of PHP extensions</a>.
+<li>Download a skin and load one of its pages into your editor.  Figure out
+    how it works.  Pay attention to the URL bar, and see if you can figure out what it's up to.
+</ul>
+
+
+<hr>
+next: <a href="playlist.html">managing playlists</a>
+
+</body></html>

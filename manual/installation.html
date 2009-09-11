@@ -1,0 +1,126 @@
+<html><head><title>Be in your Stereo</title></head><body bgcolor="#ffffff" text="#000000">
+
+<table><tr><td><img src="img/icon.png" width=64 height=64 alt="" align=middle></td><td>
+<h1>Installation</h1>
+of <a href="index.html">Be in your Stereo</a>.
+</td></tr></table>
+<hr>
+
+<a name="c"></a>
+
+<h2>Install SoundPlay</h2>
+Download <a href="http://www.bebits.com/app/156">SoundPlay</a>.  I recommend you expand it into <tt>/boot/apps</tt>.
+Once expanded, run the SoundPlay installer.
+
+<h3>Twiddle SoundPlay's settings</h3>
+<img src="img/warning.gif" alt="Important! " align=left>
+SoundPlay uses a number of plugins to perform audio decoding.  When it wants
+to identify a file, SoundPlay lets each decoder have a look at it, and selects the
+decoder that claims to understand the file best.  Thus, SoundPlay and (by extension)
+<i>Be in your Stereo</i> perform better when the more common mp3 decoder is asked first.
+
+<P>To arrange that:
+<ol>
+<li>Start SoundPlay. <img src="img/ordering.png" align=right>
+<li>Click on the Settings menu, then Preferences.
+<li>In the window that comes up, click on "Decoders" in the left pane.
+<li>In the right pane, drag and drop "AMP mpeg decoder" to the top of the list.
+</ol>
+
+Your system will now let the mpeg audio decoder have first crack at recognizing files.
+
+<h2>Install the SoundPlay plugin</h2>
+The installation script provided with this package will:
+<ol>
+<li>Build the necessary mp3 indexes and offer to populate them (see "Building an mp3 database", below). Answer no only if
+you know that you already have such a database, and it is indexed properly.
+<li>Offer to install the SoundPlay plugin to the "Plugins" folder for SoundPlay.  If you answer no, you'll have to do the installation yourself.
+<li>Install a default skin so you can use the program.
+<li>Install PHP.
+</ol>
+
+If the installer reports failure -- having several versions of SoundPlay will certainly confuse it --
+then you have to do it yourself.  Find the SoundPlay directory in Tracker,
+and drop the <i>Be In Your Stereo</i> program into
+the <b>Plugins</b> directory.
+
+<h2><a name="c3"></a>Building an mp3 database</h2>
+<img align=right src="img/attribs.png">
+<i>Be in your Stereo</i> draws on five BFS attributes to gain extra information
+about the files in your collection: Year, Genre, Artist, Producer and Album.
+Attributes contian additional information about a file, and can be indexed for
+quick retrieval.
+
+<P>These audio attributes come pre-installed with BeOS R5, and are automatically
+installed by a number of systems such as <a href="http://www.bebits.com/app/94">RipEnc</a> and
+<A href="http://www.bebits.com/app/94">id3attr</a>.  The installer script provided in this package will
+also build the indices and populate them with any information which is currently in your BFS attributes.
+
+<P>If you're like most people, you probably don't initially have much information in your BFS attributes
+for your audio files. Fortunately, building up this information is easy.  The BeOS tip server
+has a useful <a href="http://www.betips.net/cgi-bin/chunga.pl?ID=tip508">article</a>
+on this topic.
+
+The following approach will probably work well:
+<ul>
+<li>Install and run <A href="http://www.bebits.com/app/94">id3attr</a>. 
+mp3 audio files support a small amount of extended information called
+<a href="http://www.id3.org/">id3</a>.  Many encoders will automatically populate the id3 information from places like
+<a href="http://www.cddb.com/">CDDB</a> or <a href="http://www.freedb.org/">FreeDB</a>.
+An obvious thing to do is pull id3 information out
+and store it in BeOS attributes, and tools like <A href="http://www.bebits.com/app/94">id3attr</a> do just that.
+
+<li>Once the id3 tags have been extracted, you can use something like
+<a href="http://www.bebits.com/app/328">MP3 Tags and Attributes</a>
+or <a href="http://bebits.com/app/1774">MP3 Army Knife</a> to graphically set and re-write information with a Tracker add-on.
+Of course, Tracker will let you edit the attributes directly.
+
+
+<li>
+Remember, you're not obliged to have every attribute of every file set.  However, at least one of the attributes must
+be set in order for the file to be found.
+</ul>
+
+<h2><a name="c4"></a>Making it run forever</h2>
+This section is skippable for now; come back when you need to set up your Be machine as part of your stereo.
+
+<P>Once you've got your attributes set up:
+<ol>
+<li>Place a line like the following in <tt>/boot/home/config/boot/UserStartup</tt>:
+<p><tt>launch /boot/apps/SoundPlay/SoundPlay</tt>
+<P>
+
+<li>Start SoundPlay, and open its preferences panel.  Configure SoundPlay's startup settings (i.e. "resume playing") in a way that seems reasonable.
+<li>Turn on <i>Be in your Stereo</i> and configure its  settings in a way that seems reasonable.
+<li>Quit SoundPlay to save your settings.
+<li>Test your machine out by rebooting it, and pointing a web browser at its port 8080 once it starts.
+<li>Disconnect everything except your network connection, and place it next to your stereo.
+<li>Enjoy the sounds!
+<li>If you're using a separate webserver, rather than the built-in one, you'll have to make it run
+on startup using a similar technique.
+
+</ol>
+
+There is the important question of how you add files to your collection. This facility is not supported at all
+by the plugin, so you need to resort to some other tools for now. Some thoughts:
+
+<ul>
+<li>The ftp server <a href="http://www.bebits.com/app/224">diner</a> supports the transmission of BeOS file attributes via FTP when using
+a compliant client like <a href="http://www.bebits.com/app/34">NetPenguin</a>.
+<li>Certain skins for <i>Be in your Stereo</i>'s interface will support file uploads and attribute editing.
+<li>You can transmit files via the BeOS standard FTP server, telnet in, and change the attributes yourself.  The following
+aliases might be of use in your box's .profile:
+
+<pre>
+alias setgenre="addattr Audio:Genre"
+alias setartist="addattr Audio:Artist"
+alias setalbum="addattr Audio:Album"
+alias setyear="addattr -t int Audio:Year"
+</pre>
+<li>There's certainly more ways.  See the <a href="notes.html#f">help</a> section to find some ways to
+share ideas with other users.
+</ul>
+
+<hr>
+<a href="usage.html">next: usage</a>
+</body></html>

@@ -1,0 +1,125 @@
+This file should be read by anyone who intends to compile the source.
+
+Requirements:
+
+* BeOS development tools, available at ftp://ftp.be.com/pub/beos/
+* SoundPlay plugin developer's toolkit AND liblayout plugin developer's
+  toolkit available from http://www.xs4all.nl/~marcone/
+
+I recommend that the SoundPlay development toolkit have its headers
+placed in /boot/develop/headers/soundplay, and liblayout have its headers
+in /boot/develop/headers/liblayout.  The makefile expects this.
+
+Included in etc/makefile-engine is a drop-in replacement for Be's
+/boot/develop/etc/makefile-engine.  It basically has better support
+for filenames with spaces in them, and automatic application of version
+numbers.
+
+-------------------------
+
+How to build:
+
+Make sure there is a symbolic link to the SoundPlay binary in the
+'bestereo' directory. This is required for linking.  The symlink must
+be called _APP_.
+
+   ln -s /boot/apps/SoundPlay/SoundPlay _APP_
+
+Type 'make depend'. This builds the header dependency file.
+
+Then type 'make'.  This will compile the plugin into obj.x86/ or obj.ppc/
+as appropriate.
+
+-------------------------
+
+Special makefile targets:
+
+There are a few makefile targets available to make your life easier:
+
+make install
+	This will compile the plugin and try to copy it to
+	/boot/apps/SoundPlay/Plugins
+
+make clean
+	Nukes the contents of the object file directory.
+
+make dist
+	Creates a directory in /tmp, populates it with files required
+	for shipping, then builds a .zip.  Also opens a Tracker window
+	with the distribution directory.
+
+---------------------------
+
+Code roadmap:
+
+These are the chunks:
+	1) soundplay integration
+	2) the web server
+	3) the mp3 database
+
+1) SP integration
+
+soundplay_integration.cpp
+	Describes the application to SoundPlay, using the structures
+	defined in SoundPlay's pluginproto.h
+
+ConfigView.h and cpp
+	Builds a BView so that SoundPlay can show configuration for
+	the plugin.
+
+HttpUI.h and cpp
+	This is the plugin class, called from soundplay_integration.cpp.
+	If the preferences so dictate, this class will also spawn a web
+	server to listen for hits from a web browser.
+
+2) Web server (optional, depending on preferences)
+
+HTTPRequest.h Http-thread.h and .cpp
+	If the web server is active, hits are delegated into this class
+	for handling.  Each web hits results in a spawned thread.
+
+SLooper.h and .cp
+	A mixin class for HttpUI.h which makes the message loop easy to
+	find from remote applications.
+
+3) MP3 Collection
+
+mp3file.h AttributeIndex.* hash_string.h MP3Query.h
+	Together, these files provide the implementation (filetypes,
+	code) for the mp3 database.
+
+	The database is kept by the class defined in MP3Query.h,
+	using types built from the other files.  The MP3Query keeps an
+	AttributeIndex, which is a hashed (i.e. fast) multiple-mapping
+	(i.e. one to many) from a string to mp3file pointers.
+
+	e.g. AttributeList genres;
+	     This member has a set of associations like so:
+	     "Ambient" -> Little Fluffly Clouds.mp3
+	               -> Karma.mp3
+	     "Rock" -> Metallica - We're Weenies.mp3 etc.
+	
+	An mp3file is basically a file reference on disk plus pointers
+	into the AttributeList, for the purposes of quickly building
+	cross-referencing.
+
+	mp3file.h also defines the type mp3set, for representing an
+	unordered (!)  set of mp3's.
+
+-------------------
+
+The PHP extension
+
+Nearly everything interesting in BIYS is done in a PHP extension.  The source
+for this is in ext/biys.  To get it building:
+
+1. check out PHP from CVS by following the instructions at
+   http://php.net/anoncvs.php
+   
+2. In the directory you check out, symlink php/ext/biys to bestereo/exp/biys .
+
+3. In PHP, type
+	./buildconf
+	./configure --without-mysql --with-biys=/boot/home/dev/bestereo --prefix=/boot/home/config/ --with-perl
+	make
+

@@ -1,0 +1,59 @@
+<html><head><title>Be in your Stereo</title></head><body bgcolor="#ffffff" text="#000000">
+
+<table><tr><td><img src="img/icon.png" width=64 height=64 alt="" align=middle></td><td>
+<h1>The Built-In Web Server</h1>
+and things you need to know if you don't want to use it,
+for <a href="index.html">Be in your Stereo</a>.
+</td></tr></table>
+<hr>
+
+<img align=right src="img/prefs-2.png">
+The built-in web server <em>always</em> serves files from the location
+<tt>/boot/home/config/settings/biys/current_skin/</tt>.  That file is actually
+a symlink that is adjusted to point to your preferred skin when you use the skin-selector
+in the plugin's preferences. 
+
+<P>It is strongly recommended that if you set up a web server like Apache or
+Robin Hood, that you tell it to use <tt>/boot/home/config/settings/biys/current_skin/</tt>
+for its document root. This way, the preference dialog's skin selector will continue to work.
+
+<h3>Details on the built-in web server's capabilities</h3>
+
+To keep things simple, BIYS ships with a basic web server built in.  It has one
+parameter:
+
+<ol>
+<li>What port to listen to
+</ol>
+
+It has none of the features you would expect from a real web server,
+such as authentication, database connectivity, configurable logging,
+or multiple hosts.
+
+<P>The web server knows that some types of files are static (i.e. unchanging).
+Static files are sent straight to the web browser unchanged.  The server code
+decides based on file extension - not BeOS attributes - whether a file is static.
+The filenames that are recognized as static are
+
+<Div align=center>
+<Table border=1>
+<tr><Th>extension</th><th>MIME type</th></tr>
+<tr><Td>gif</td><Td>image/gif</td></tr>
+<tr><Td>jpeg</td><Td>image/jpeg</td></tr>
+<tr><Td>jpg</td><Td>image/jpeg</td></tr>
+<tr><Td>png</td><Td>image/png</td></tr>
+<tr><Td>html</td><Td>text/html</td></tr>
+<tr><Td>txt</td><Td>text/plain</td></tr>
+</table>
+</div>
+
+Everything else is sent to PHP for processing.   PHP is expected to be in your
+path, and have the command name "php".
+
+<hr>
+next: <a href="api/index.html">PHP API for skin authors</a> or <a href="notes.html">skip to the closing notes</a> if you don't want
+to write your own skin.
+
+
+</body></html>
+

@@ -1,0 +1,81 @@
+<html><head><title>Be in your Stereo</title></head><body bgcolor="#ffffff" text="#000000">
+
+<table width="100%"><tr><td width=64><img src="../img/icon.png" width=64 height=64 alt="" align=middle></td><td>
+<h1>Playback control API</h1>
+for <a href="index.html">skins</a>.
+</td><td align=right>
+
+<a href="architecture.html">Intro</a>  | <a href="crashcourse.html">PHP</a>
+<Br>APIs: 
+<a href="playlist.html">playlist</a> | Playback | <a href="collection.html">Collection</a> 
+</td>
+
+</tr></table>
+<hr>
+
+<tt>
+<a href="#cid">*</a> int biys_get_current_id(int playlist=0)
+<Br><a href="#ci">*</a> int biys_get_current_index(int playlist=0)
+<p><a href="#playfile">*</a> void biys_play_file(int playlist=0, int ID)
+<br><a href="#next">*</a> void biys_play_next(int playlist=0)
+<br><a href="#prev">*</a> void biys_play_previous(int playlist=0)
+<br><a href="#play">*</a> void biys_play(int playlist=0)
+<br><a href="#pause">*</a> void biys_pause(int playlist=0)
+<p><a href="#getpitch">*</a> double biys_get_pitch(int playlist=0)
+<br><a href="#setpitch">*</a> void biys_set_pitch(int playlist=0, hodouble pitch)
+<Br><a href="#getpos">*</a> double biys_get_position(int playlist=0)
+<br><a href="#setpos">*</a> void biys_set_position(int playlist=0, double position)
+<br><a href="#getvol">*</a> double biys_get_volume(int playlist=0)
+<br><a href="setvol">*</a> void biys_set_volume(int playlist=0, double volume)
+
+</tt>
+
+<P><hr><h3><a name="cid"></a>int biys_get_current_id(int playlist=0)</h2><blockquote> 
+  Returns the ID of the entry currently being played, or -1 if the playlist is empty.
+
+</blockquote><hr><h3><a name="ci"></a>int biys_get_current_index(int playlist=0)</h2><blockquote> 
+  Returns the index of the entry currently being played, or -1 if the playlist is empty.
+
+</blockquote><hr><h3><a name="playfile"></a>void biys_play_file(int ID, int playlist)</h2><blockquote> 
+  Starts playing a particular entry in the playlist.
+
+</blockquote><hr><h3><a name="next"></a>void biys_play_next(int playlist=0)</h2><blockquote> 
+  Skips to the next entry in the playlist. 
+
+</blockquote><hr><h3><a name="prev"></a>void biys_play_previous(int playlist=0)</h2><blockquote> 
+  Skips to the previous entry in the playlist. 
+
+</blockquote><hr><h3><a name="play"></a>void biys_play(int playlist=0)</h2><blockquote> 
+  Starts playback.  Equivalent to setting the pitch to 1.0. 
+
+</blockquote><hr><h3><a name="pause"></a>void biys_pause(int playlist=0)</h2><blockquote> 
+  Pauses playback. Equivalent to setting the pitch to 0.0. 
+
+</blockquote><hr><h3><a name="getpitch"></a>double biys_get_pitch(int playlist=0)</h2><blockquote> 
+  Returns the current playback pitch:
+  <ul><li>0 = stopped
+  <li>1.0 = normal playing speed
+  <li>2.0 = double playback speed
+  </ul>
+  
+</blockquote><hr><h3><a name="setpitch"></a>void biys_set_pitch(double pitch, int playlist=0)</h2><blockquote> 
+  Sets the playback pitch.
+  
+</blockquote><hr><h3><a name="getpos"></a>double biys_get_position(int playlist=0)</h2><blockquote> 
+  Returns the playback position in the track between 0.0 and 1.0. 
+
+</blockquote><hr><h3><a name="setpos"></a>void biys_set_position(double position, int playlist=0) </h2><blockquote> 
+  Sets the playback position in the track.  Pass in a value between 0.0 and 1.0.
+  
+</blockquote><hr><h3><a name="getvol"></a>double biys_get_volume(int playlist=0)  </h2><blockquote> 
+  Returns the volume: 0..1. 
+
+</blockquote><hr><h3><a name="setvol"></a>void biys_set_volume(double volume, int playlist=0)</h2><blockquote> 
+  Sets the volume: 0..1 
+
+</blockquote>
+
+<hr>
+next: <a href="collection.html">browsing the collection</a>
+
+</body></html>

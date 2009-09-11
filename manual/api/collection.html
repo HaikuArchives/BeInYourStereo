@@ -1,0 +1,299 @@
+<html><head><title>Be in your Stereo</title></head><body bgcolor="#ffffff" text="#000000">
+
+<table width="100%"><tr><td width=64><img src="../img/icon.png" width=64 height=64 alt="" align=middle></td><td>
+<h1>Audio collection API</h1>
+for <a href="index.html">skins</a>.
+</td><td align=right>
+
+<a href="architecture.html">Intro</a>  | <a href="crashcourse.html">PHP</a>
+<Br>APIs: 
+<a href="playlist.html">Playlist</a> | <A href="playback.html">Playback</a> | Collection
+</td>
+
+</tr></table>
+<hr>
+
+These functions are for exploring the audio collection.
+PHP's <a href="http://php.net/manual/en/ref.array.php">array-manipulation functions</a> can be used to do interesting things with 
+the results. To understand the behaviour of these functions, consider
+the following example collection.  There is one album with two tracks from two different
+artists, remixed by Dave Seaman, and an 80's track.
+
+<P>
+<table border="1" cellpadding="5">
+<tr><th>file</th><th>year</th><th>genre</th><th>producer</th><th>artist</th><th>album</th><th>Track title<br>(not indexed)</th></tr>
+<tr><td>101.mp3</td><td>1997</td><td>Dance</td><td>Dave Seaman</td><td>Midi Brotherhood</td><td>Back to Mine CD1</td><td>The Superself</td></tr>
+<tr><td>102.mp3</td><td>1997</td><td>Dance</td><td>Dave Seaman</td><td>Craig Armstrong</td><td>Back to Mine CD1</td><td>Weather Storm</td></tr>
+<tr><td>in_too_deep.mp3</td><td>1986</td><td>Rock</td><td></td><td>Genesis</td><td>Invisible Touch</td><td>In Too Deep</td></tr>
+</table>
+
+<P>
+The function descriptions below will draw on this example.
+Notice that the Producer variable is empty for the soundtrack. It really only
+makes sense on remix albums, or a few soundtracks.
+
+<P>
+<tt>
+
+<a href="#lf">*</a> array biys_list_files()
+
+<p><a href="#lg">*</a> array biys_list_genres()
+<Br><a href="#lp">*</a> array biys_list_producers()
+<Br><a href="#lar">*</a> array biys_list_artists()
+<br><a href="#lal">*</a> array biys_list_albums()
+<br><a href="#ly">*</a> array biys_list_years()
+
+<P><a href="#xg">*</a> array biys_xref_genre(string genre)
+<br><a href="#xp">*</a> array biys_xref_producer(string producer)
+<Br><a href="#xar">*</a> array biys_xref_artist(string artist)
+<br><a href="#xal">*</a> array biys_xref_album(string album)
+<Br><a href="#xy">*</a> array biys_xref_year(string year)
+
+<P>
+<br><a href="#trviap">*</a> array biys_get_attributes_for_path(string path)
+
+</tt>
+<P>
+
+<hr><h3><a name="lf"></a>array biys_list_files()</h2><blockquote> 
+  Returns an array with the full pathnames of all the audio tracks identified on the
+  user's computer.
+  
+  <p>With the above example, this would return<br>
+  <tt>
+  ( "/path/to/101.mp3", "/path/to/102.mp3", "/path/to/in_too_deep.mp3" )
+  </tt>
+  
+    
+</blockquote><hr><h3><a name="lg"></a>array biys_list_genres()</h2><blockquote> 
+  Returns an array of genre names.  This array will contain the list of all the distinct Genre names that occur in your collection.
+  For the exmample, this would be a two-entry array: ("Dance", "Rock").
+
+</blockquote><hr><h3><a name="lp"></a>array biys_list_producers()</h2><blockquote> 
+  Returns an array of producer names.  This array will contain the list of all the distinct Producers that occur in your collection.
+  For the example, this would be a one-entry array: ("Dave Seaman").
+  
+</blockquote><hr><h3><a name="lar"></a>array biys_list_artists()</h2><blockquote> 
+  Returns an array of artist names.  This array will contain the list of all the Artists that occur in your collection.
+  For the example, the return value can be two possible arrays:
+  <ol>
+  <li>("Dave Seaman", "Genesis")
+		if the plugin is configured
+  	  to have the Producer override the Author attribute if it's set.  
+  <li>("Midi Brotherhood", "Craig Armstrong", and "Genesis") 
+		otherwise
+  </ol>
+  
+</blockquote><hr><h3><a name="lal"></a>array biys_list_albums()</h2><blockquote> 
+  Returns an array of album names.  This array will contain the list of all the Albums that occur in your collection.
+  For the example, this will be a two-value array ("Invisible Touch", "Back to Mine CD1").
+  
+</blockquote><hr><h3><a name="ly"></a>array biys_list_years()</h2><blockquote> 
+  Returns an array of years (rendered as strings).  This array will contain the list of all the Years that occur in your collection.
+  For the example, this will be a two-value array ("1986, 1997").
+  
+
+</blockquote><hr><h3><a name="xg"></a>array biys_xref_genre(string genre)</h2><blockquote>
+This function performs a cross-reference on Genre, retrieving all
+the attributes which occur on files ion the same Genre.
+
+<P>
+The function returns a hash of arrays: 
+
+<pre> 
+['matching'] - an array of the paths for the tracks that matched
+['genre'][] - list of matching genres 
+['year'][] - list of matching years 
+['producer'][] - list of matching producers 
+['album'][] - list of matching albums 
+['arist'][] - list of matching artists 
+</pre> 
+
+In the scenario above, given the following code:
+<pre>
+	$result = biys_xref_genre("Dance");
+
+	# print_r is a built-in functions that prints out a variable
+	# recursively: it dumps arrays, hashes, and scalars.
+	print_r($result);
+</pre>
+
+the output would be as follows:
+
+<pre>
+Array 
+( 
+    [genre] => Array 
+        ( 
+            [0] => Dance
+        ) 
+
+    [artist] => Array 
+        ( 
+            [0] => Midi Brotherhood
+            [1] => Craig Armstrong
+        ) 
+
+    [producer] => Array 
+        ( 
+            [0] => Dave Seaman
+        ) 
+
+    [album] => Array 
+        ( 
+            [0] => Back to Mine CD1
+        ) 
+
+    [matching] => Array
+        (
+        	[0] => /boot/home/music/101.mp3
+        	[1] => /boot/home/music/102.mp3
+        )
+)
+</pre>
+
+
+</blockquote><hr><h3><a name="xp"></a>array biys_xref_producer(string producer)</h2><blockquote>* 
+This function performs a cross-reference on the given Producer, retrieving all
+the attributes which occur on files by this Producer.
+
+<P>
+The function returns a hash of arrays as with <tt>biys_xref_genre</tt>.  The output of this code:
+
+<pre>
+	$result = biys_xref_producer("Dave Seaman");
+	print_r($result);
+
+</pre>
+
+would be
+
+<pre>
+Array 
+( 
+    [genre] => Array 
+        ( 
+            [0] => Dance
+        ) 
+
+    [artist] => Array 
+        ( 
+            [0] => Midi Brotherhood
+            [1] => Craig Armstrong
+        ) 
+
+    [producer] => Array 
+        ( 
+            [0] => Dave Seaman
+        ) 
+
+    [album] => Array 
+        ( 
+            [0] => Back to Mine CD1
+        ) 
+
+    [matching] => Array
+        (
+        	[0] => /boot/home/music/101.mp3
+        	[1] => /boot/home/music/102.mp3
+        )
+)
+</pre>
+
+
+</blockquote><hr><h3><a name="xar"></a>array biys_xref_artist(string artist)</h2><blockquote> 
+This function performs a cross-reference on the given Artist, retrieving all
+the attributes which occur on files by this Artist.
+
+<P>
+The function returns a hash of arrays as with <tt>biys_xref_genre</tt>.  The output of this code:
+
+<pre>
+	$result = biys_xref_artist("Geneis");
+	print_r($result);
+</pre>
+
+would be
+
+<pre>
+Array 
+( 
+    [genre] => Array 
+        ( 
+            [0] => Rock
+        ) 
+
+    [artist] => Array 
+        ( 
+            [0] => Genesis
+        ) 
+
+    [producer] => Array 
+        ( 
+        ) 
+
+    [album] => Array 
+        ( 
+            [0] => Invisible Touch
+        ) 
+
+    [matching] => Array
+        (
+        	[0] => /boot/home/music/in_too_deep.mp3
+        )
+)
+</pre>
+
+</blockquote><hr><h3><a name="xal"></a>array biys_xref_album(string album)</h2><blockquote> 
+This function performs a cross-reference on the given Album, retrieving all
+the attributes which occur on files from the given Album.
+
+<P>
+The function returns a hash of arrays as with <tt>biys_xref_genre</tt>.
+
+</blockquote><hr><h3><a name="xy"></a>array biys_xref_year(string year)</h2><blockquote> 
+This function performs a cross-reference on the given Year, retrieving all
+the attributes which occur on files from the given Year.
+
+<P>
+The function returns a hash of arrays as with <tt>biys_xref_genre</tt>.
+
+</blockquote><hr><h3><a name="trviap"></a>array biys_get_attributes_for_path(string path)</h2><blockquote> 
+
+See also <tt><A href="playlist.html#trivia">biys_get_attributes_for_id</a></tt>.
+<P>
+This function will also retrieve all the BFS attributes it can for the file,
+and include them verbatim in a PHP hash.
+It understands string, integer, and floating-point attributes,
+and will copy up to 65,536 bytes of information out of each attribute and into php land.
+Common attributes include:
+
+<ul>
+	<li>Audio:Length = 08:25
+	<li>Audio:Bitrate = 192 kbit
+	<li>Audio:Track = 1
+	<li>Audio:Artist = underworld
+	<li>Audio:Title = cups
+	<li>Audio:Album = GU014 Hong Kong CD1
+	<li>Audio:Genre = Global Underground
+	<li>Audio:Year = 1999
+	<li>Audio:Producer = John Digweed
+</ul>
+
+	Using the results of the function is easy:
+	
+<pre>
+	$trivia = biys_get_attributes_for_path("/boot/blah/test.mp3");
+	print "The genre is ".$trivia['Audio:Genre']." and the song's play time is ";
+	print $trivia['Audio:Length'];
+</pre>
+
+Note that you're not just restricted to retrieving the attributes for audio tracks.
+You could examine the attributes of e-mail or People files if you felt like it.
+
+</blockquote>
+
+<hr>
+next: <a href="../notes.html">closing notes</a>
+
+</body></html>
