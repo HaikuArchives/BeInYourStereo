@@ -5,6 +5,7 @@
 
 #include <Looper.h>
 #include <list>
+#include <Query.h>
 #include "AttributeIndex.h"
 
 #ifdef __POWERPC__

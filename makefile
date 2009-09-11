@@ -14,10 +14,10 @@ RSRCS= icon.rsrc
 # @<-src@ 
 #%}
 
-LIBS= be root layout textencoding  netapi _APP_ stdc++.r4
-LIBPATHS= /boot/home/config/lib/ /boot/develop/headers/soundplay
+LIBS= be root layout textencoding  nework _APP_ stdc++.r4
+LIBPATHS= /boot/common/lib/ /boot/develop/headers/soundplay
 
-SYSTEM_INCLUDE_PATHS = /boot/develop/headers/soundplay /boot/develop/headers/liblayout
+SYSTEM_INCLUDE_PATHS = /boot/develop/headers/soundplay /boot/common/include/liblayout
 LOCAL_INCLUDE_PATHS = 
 
 ## Build setting ---------------------------------------------
@@ -51,19 +51,16 @@ DEBUGGER = FALSE
 COMPILER_FLAGS = -fomit-frame-pointer
 LINKER_FLAGS =
 
+DISTDIR = /tmp/bestereo-$(VERSION)
+VERSION = $(APP_MAJOR_VERSION).$(APP_MINOR_VERSION)
 
 ## include the makefile-engine
 include $(BUILDHOME)/etc/makefile-engine
 
-
-# Post-build specializations
-install: default
-	mv obj.$(BE_HOST_CPU)/Be* /boot/apps/SoundPlay/Plugins
-
-
-
-DISTDIR = /tmp/bestereo-$(VERSION)
-VERSION = $(APP_MAJOR_VERSION).$(APP_MINOR_VERSION)
+# Post-build specializations	
+#install: default
+#	mv obj.x86/Be* /boot/apps/SoundPlay/Plugins
+	
 dist: default
 	rm -rf /tmp/bestereo-$(VERSION)
 	cp etc/AddProducerAttribute obj.x86   #x86 only!
@@ -82,7 +79,8 @@ dist: default
 	cp Installer $(DISTDIR)
 	rm $(DISTDIR)/obj.*/*.o
 
-	rm -r `find $(DISTDIR) -type d | grep CVS`
+	rm -r `find $(DISTDIR) -type d | grep .svn`
 	/system/Tracker $(DISTDIR) 
 	cd /tmp; zip -ry9 $(DISTDIR).zip bestereo-$(VERSION)
-	
+
+
