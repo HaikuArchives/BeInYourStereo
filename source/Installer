@@ -56,7 +56,7 @@ then
 	fi
 else
 	alert "Be in your Stereo requires SoundPlay to be installed. I don't see it anywhere." "Show me where"
-	NetPositive http://bebits.com/app/156
+	WebPositive http://bebits.com/app/156
 fi
 
 # make the skins folder and park the basic one there.
